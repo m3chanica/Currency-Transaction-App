@@ -42,7 +42,9 @@ public class JdbcAccountDao implements AccountDao{
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
             if(results.next()) {
-                balance = new BigDecimal(results.toString());
+                Account newAccount = mapRowToAccount(results);// this is what i changed
+
+                balance = newAccount.getBalance();// i also changed this
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
