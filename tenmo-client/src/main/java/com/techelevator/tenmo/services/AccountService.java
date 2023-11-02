@@ -21,6 +21,7 @@ public class AccountService {
         this.baseUrl = url;
     }
 
+
     public BigDecimal getBalance(AuthenticatedUser user) {
         BigDecimal accountBalance = null;
         Account account = null;
