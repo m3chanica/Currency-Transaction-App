@@ -2,7 +2,6 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -31,7 +30,7 @@ public class JdbcAccountDao implements AccountDao{
     }
 
     @Override
-    public Account getAccountByUsername(String username) {
+    public Account getAccountByUserId(int userId) {
         return null;
     }
 
