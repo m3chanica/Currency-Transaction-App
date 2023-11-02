@@ -2,7 +2,6 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -58,33 +57,21 @@ public class JdbcAccountDao implements AccountDao{
         return account;
     }
 
-    @Override
-    public Account getAccountByUsername(String username) {
-        Account account = new Account();
-        String sql = "SELECT account_id, user_id, balance FROM account JOIN tenmo_user ON tenmo_user.user_id = account.user_id WHERE username = ?;";
 
-        try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
-            if(results.next()) {
-                account = mapRowToAccount(results);
-            }
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-
-        return account;
+    public Account getAccountByUserId(int userId) {
+        return null;
     }
 
     @Override
-    public BigDecimal getBalanceById(int id) {
+    public BigDecimal getBalanceByUserId(int id) {
         BigDecimal balance = null;
         String sql = "SELECT account_id, user_id, balance FROM account WHERE user_id = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
             if(results.next()) {
-                Account newAccount = mapRowToAccount(results);// this is what i changed
+                Account newAccount = mapRowToAccount(results);
 
-                balance = newAccount.getBalance();// i also changed this
+                balance = newAccount.getBalance();
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
