@@ -1,13 +1,7 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
-import com.techelevator.tenmo.services.AccountService;
-import com.techelevator.tenmo.services.AuthenticationService;
-import com.techelevator.tenmo.services.ConsoleService;
-import com.techelevator.tenmo.services.UserService;
+import com.techelevator.tenmo.model.*;
+import com.techelevator.tenmo.services.*;
 
 import java.math.BigDecimal;
 
@@ -21,6 +15,7 @@ public class App {
     private final AccountService accountService = new AccountService(API_BASE_URL);
     private AuthenticatedUser currentUser;
     private final UserService userService = new UserService(API_BASE_URL);
+    private final TransferService transferService = new TransferService(API_BASE_URL);
 
     public static void main(String[] args) {
         App app = new App();
@@ -99,27 +94,7 @@ public class App {
         System.out.println("```");
     }
 
-	private void viewTransferHistory() {
-        System.out.println("```");
-        System.out.println("-------------------------------------------");
-        System.out.println("Transfers");
-        System.out.println("ID          From/To                  Amount");
-        System.out.println("-------------------------------------------");
-        System.out.println("XX"+"    "+"From: "+"XXXXXXXX"+"   "+"$XXXXX.XX");
-        System.out.println("-------------------------------------------");
-        System.out.println();
-        System.out.println("Please enter transfer ID to view details (0 to cancel):");
-        System.out.println("```");
 
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        if(userInput == "0"){
-            mainMenu();
-        }else{
-            mainMenu();
-        }
-
-	}
 
 	private void viewPendingRequests() {
         System.out.println("```");
@@ -182,27 +157,71 @@ public class App {
             mainMenu();
         }
 	}
-    private void transferDetails() {
-        System.out.println("```");
-        System.out.println("-------------------------------------------");
-        System.out.println("Transfer Details");
-        System.out.println("-------------------------------------------");
-        System.out.println("ID:     "+"XX");
-        System.out.println("From:   "+"XXXXXX");
-        System.out.println("To:     "+"XXXXXX");
-        System.out.println("Status: "+"XXXXX");
-        System.out.println("Amount: "+"$"+"XXXX.XX");
-        System.out.println("```");
-        System.out.println("Enter any key to continue");
 
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        if(userInput == "0"){
-            mainMenu();
-        }else{
-            mainMenu();
+//TODO THE INFO BEING PROVIDED IS ABSOLUTE GARBAGE AND NEEDS PROPER INFO YOU DUMB CRAB EATING IDIOT
+    private void viewTransferHistory() {
+
+
+        Transfer[] transfers = transferService.listTransfer();
+        if (transfers != null) {
+            consoleService.printTransfers(transfers);
+        } else {
+            consoleService.printErrorMessage();
+        }
+//        System.out.println("```");
+//        System.out.println("-------------------------------------------");
+//        System.out.println("Transfers");
+//        System.out.println("ID          From/To                  Amount");
+//        System.out.println("-------------------------------------------");
+//        System.out.println("XX"+"    "+"From: "+"XXXXXXXX"+"   "+"$XXXXX.XX");
+//        System.out.println("-------------------------------------------");
+//        System.out.println();
+//        System.out.println("Please enter transfer ID to view details (0 to cancel):");
+//        System.out.println("```");
+//
+//        Scanner scanner = new Scanner(System.in);
+//        String userInput = scanner.nextLine();
+//        if(userInput == "0"){
+//            mainMenu();
+//        }else{
+//            mainMenu();
+//        }
+
+    }
+
+    //TODO HOLY SHIT THIS IS TOTALLY EFFED PLEASE MAKE IT SO WHEN THE USER SPECS AN ID IT RETURNS THE CORRECT SHIT
+    // PROMPT USER FOR THE DAMN ID
+    private void transferDetails(int id) {
+        Transfer transfers = transferService.getTransferDetails(id);
+            if (id > 0) {
+                transfers = transferService.getTransferDetails(id);
+                } else {
+                    consoleService.printErrorMessage();
         }
     }
+
+
+
+//        System.out.println("```");
+//        System.out.println("-------------------------------------------");
+//        System.out.println("Transfer Details");
+//        System.out.println("-------------------------------------------");
+//        System.out.println("ID:     "+"XX");
+//        System.out.println("From:   "+"XXXXXX");
+//        System.out.println("To:     "+"XXXXXX");
+//        System.out.println("Status: "+"XXXXX");
+//        System.out.println("Amount: "+"$"+"XXXX.XX");
+//        System.out.println("```");
+//        System.out.println("Enter any key to continue");
+//
+//        Scanner scanner = new Scanner(System.in);
+//        String userInput = scanner.nextLine();
+//        if(userInput == "0"){
+//            mainMenu();
+//        }else{
+//            mainMenu();
+//        }
+//    }
 
     private void acceptOrReject() {
         System.out.println("```");
