@@ -36,11 +36,11 @@ public class JdbcAccountDao implements AccountDao{
     }
 
     @Override
-    public BigDecimal getBalanceByUsername(String username) {
+    public BigDecimal getBalanceById(int id) {
         BigDecimal balance = null;
-        String sql = "SELECT balance FROM account JOIN tenmo_user ON tenmo_user.user_id = account.user_id WHERE username = ?;";
+        String sql = "SELECT account_id, user_id, balance FROM account WHERE user_id = ?;";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
             if(results.next()) {
                 Account newAccount = mapRowToAccount(results);// this is what i changed
 

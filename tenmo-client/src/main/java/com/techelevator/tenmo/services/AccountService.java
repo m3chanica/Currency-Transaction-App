@@ -20,14 +20,13 @@ public class AccountService {
         this.baseUrl = url;
     }
 
-    public BigDecimal getBalance(String username) {
+    public BigDecimal getBalance(int id) {
         BigDecimal accountBalance = BigDecimal.valueOf(0.01);
-        Account account = null;
 
         try {
-            ResponseEntity<Account> response = restTemplate.getForEntity(baseUrl + "balance/" + username, Account.class, HttpMethod.GET);
-            account = response.getBody();
-            accountBalance = account.getBalance();
+            ResponseEntity<BigDecimal> response = restTemplate.getForEntity(baseUrl + "balance/" + id, BigDecimal.class, HttpMethod.GET);
+
+            accountBalance = response.getBody();
 
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());

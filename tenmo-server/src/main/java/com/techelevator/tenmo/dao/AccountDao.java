@@ -15,6 +15,6 @@ public interface AccountDao {
 
     Account getAccountByUsername(String username);
 
-    BigDecimal getBalanceByUsername(String username);
+    BigDecimal getBalanceById(int id);
 
 }
