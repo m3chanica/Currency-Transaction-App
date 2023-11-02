@@ -92,7 +92,6 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-		// TODO Auto-generated method stub
         BigDecimal account = accountService.getBalance(currentUser);
         System.out.println("```");
         System.out.println("Your current balance is: " + account);
@@ -100,7 +99,6 @@ public class App {
     }
 
 	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
         System.out.println("```");
         System.out.println("-------------------------------------------");
         System.out.println("Transfers");
@@ -123,7 +121,6 @@ public class App {
 	}
 
 	private void viewPendingRequests() {
-        // TODO Auto-generated method stub
         System.out.println("```");
         System.out.println("-------------------------------------------");
         System.out.println("Pending Transfers");
@@ -145,7 +142,6 @@ public class App {
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
         System.out.println("```");
         System.out.println("-------------------------------------------");
         System.out.println("Users");
@@ -168,7 +164,6 @@ public class App {
 	}
 
 	private void requestBucks() {
-		// TODO Auto-generated method stub
         System.out.println("```");
         System.out.println("-------------------------------------------");
         System.out.println("Users");
@@ -190,7 +185,6 @@ public class App {
         }
 	}
     private void transferDetails() {
-        // TODO Auto-generated method stub
         System.out.println("```");
         System.out.println("-------------------------------------------");
         System.out.println("Transfer Details");
@@ -212,7 +206,29 @@ public class App {
         }
     }
 
-
+    private void acceptOrReject() {
+        System.out.println("```");
+        System.out.println("1: Approve");
+        System.out.println("2: Reject");
+        System.out.println("0: Don't approve or reject");
+        System.out.println("---------");
+        System.out.println("Please choose an option:");
+        System.out.println("```");
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        if(userInput == "1"){
+            System.out.println("Transaction Approved!");}
+        else if(userInput == "2") {
+            System.out.println("Transaction Rejected!");
+        }else if(userInput =="0"){
+            viewPendingRequests();
+        }
+        else
+            System.out.println(userInput + " is an invalid selection.");
+            System.out.println("Returning to main menu");
+        {mainMenu();
+        }
+    }
 }
 
 
