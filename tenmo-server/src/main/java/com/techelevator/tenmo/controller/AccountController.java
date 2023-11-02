@@ -19,10 +19,6 @@ public class AccountController {
         this.transferDao = transferDao;
     }
 
-    @RequestMapping(path = "balance/{id}", method = RequestMethod.GET)
-    public BigDecimal getBalance(@PathVariable int id) {
-        return accountDao.getBalanceByUserId(id);
-    }
 
     @RequestMapping(path = "transfers", method = RequestMethod.GET)
     public List<Transfer> getAllTransfers() {
@@ -62,4 +58,6 @@ public class AccountController {
     public BigDecimal getBalanceByUserId(@PathVariable int userId) {
         return accountDao.getBalanceByUserId(userId);
     }
+
+
 }
