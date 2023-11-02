@@ -2,10 +2,12 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.UserService;
 
 import java.math.BigDecimal;
 
@@ -14,12 +16,11 @@ import java.util.Scanner;
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
-
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private final AccountService accountService = new AccountService(API_BASE_URL);
-
     private AuthenticatedUser currentUser;
+    private final UserService userService = new UserService(API_BASE_URL);
 
     public static void main(String[] args) {
         App app = new App();
@@ -142,13 +143,12 @@ public class App {
 	}
 
 	private void sendBucks() {
-        System.out.println("```");
-        System.out.println("-------------------------------------------");
-        System.out.println("Users");
-        System.out.println("ID          Name");
-        System.out.println("-------------------------------------------");
-        System.out.println("XX"+"    "+"XXXXXXXX");
-        System.out.println("-------------------------------------------");
+        User[] users = userService.listUsers();
+        if (users != null) {
+            consoleService.printUsers(users);
+        } else {
+            consoleService.printErrorMessage();
+        }
         System.out.println();
         System.out.println("Enter ID of user you are sending to (0 to cancel):");
         System.out.println("Enter amount:");
@@ -164,18 +164,16 @@ public class App {
 	}
 
 	private void requestBucks() {
-        System.out.println("```");
-        System.out.println("-------------------------------------------");
-        System.out.println("Users");
-        System.out.println("ID          Name");
-        System.out.println("-------------------------------------------");
-        System.out.println("XX"+"    "+"XXXXXXXX");
-        System.out.println("-------------------------------------------");
+        User[] users = userService.listUsers();
+        if (users != null) {
+            consoleService.printUsers(users);
+        } else {
+            consoleService.printErrorMessage();
+        }
         System.out.println();
         System.out.println("Enter ID of user you are requesting from (0 to cancel):");
         System.out.println("Enter amount:");
         System.out.println("```");
-
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
         if(userInput == "0"){
