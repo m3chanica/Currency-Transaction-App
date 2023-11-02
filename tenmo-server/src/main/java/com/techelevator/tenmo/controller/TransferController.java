@@ -38,7 +38,7 @@ public class TransferController {
         return transferDao.getCompletedTransfers();
     }
 
-    @RequestMapping(path = "transfers", method = )
+//    @RequestMapping(path = "transfers", method = );
 
 
 }
