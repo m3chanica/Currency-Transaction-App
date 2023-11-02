@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
@@ -103,4 +104,29 @@ public class ConsoleService {
         System.out.println("-------------------------------------------");
 
 	}
+//TODO THIS HORSESHIT IS WRONG AND NEEDS FIXED CUZ ITS SOOO DUMB AND JUST WRONG LOOK AT THE README
+    public void printTransfers(Transfer[] transfers) {
+        for (Transfer transfer : transfers) {
+            System.out.println(transfer.getTransferId() + " " + transfer.getTransferStatusId()+ " " + transfer.getAccountFrom()+ " " + transfer.getAccountTo()+ " " + transfer.getAmount());}
+        System.out.println("-------------------------------------------");
+
+    }
+
+//TODO THISSSSS HORSESHIT IS FORMATTED A LOT BETTER BUT IT IS JUST NOT IMPLEMENTED YOU DUMB APE
+    public void printTransfer(Transfer transfer) {
+        System.out.println("--------------------------------------------");
+        System.out.println("Transfer Details");
+        System.out.println("--------------------------------------------");
+        if (transfer == null) {
+            System.out.println("No transfer to print");
+        } else {
+            System.out.println("Id: " + transfer.getTransferId());
+            System.out.println("Status: " + transfer.getTransferStatusId());
+            System.out.println("Account From: " + transfer.getAccountFrom());
+            System.out.println("Account to: " + transfer.getAccountTo());
+            System.out.println("Amount: " + transfer.getAmount());
+        }
+    }
+
+
 }
