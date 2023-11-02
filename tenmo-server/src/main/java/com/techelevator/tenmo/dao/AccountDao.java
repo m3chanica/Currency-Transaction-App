@@ -1,20 +1,13 @@
 package com.techelevator.tenmo.dao;
 
-import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.RegisterUserDto;
-import com.techelevator.tenmo.model.User;
-
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.techelevator.tenmo.model.Account;
+
 public interface AccountDao {
-
     List<Account> getAccounts();
-
     Account getAccountByAccountId(int accountId);
-
-    Account getAccountByUsername(String username);
-
-    BigDecimal getBalanceByUsername(String username);
-
+    Account getAccountByUserId(int userId);
+    BigDecimal getBalanceByUserId(int userId);
 }
