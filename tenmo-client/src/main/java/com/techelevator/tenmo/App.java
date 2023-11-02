@@ -6,6 +6,9 @@ import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 
+import java.math.BigDecimal;
+import java.util.Scanner;
+
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
@@ -88,28 +91,125 @@ public class App {
 
 	private void viewCurrentBalance() {
 		// TODO Auto-generated method stub
-        System.out.println(accountService.getBalance(currentUser.getUser().getUsername()));
-		
-	}
+        BigDecimal account = accountService.getBalance(currentUser);
+        System.out.println("```");
+        System.out.println("Your current balance is: " + account);
+        System.out.println("```");
+    }
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
-		
+        System.out.println("```");
+        System.out.println("-------------------------------------------");
+        System.out.println("Transfers");
+        System.out.println("ID          From/To                  Amount");
+        System.out.println("-------------------------------------------");
+        System.out.println("XX"+"    "+"From: "+"XXXXXXXX"+"   "+"$XXXXX.XX");
+        System.out.println("-------------------------------------------");
+        System.out.println();
+        System.out.println("Please enter transfer ID to view details (0 to cancel):");
+        System.out.println("```");
+
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        if(userInput == "0"){
+            mainMenu();
+        }else{
+            mainMenu();
+        }
+
 	}
 
 	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
-		
+        // TODO Auto-generated method stub
+        System.out.println("```");
+        System.out.println("-------------------------------------------");
+        System.out.println("Pending Transfers");
+        System.out.println("ID          To                       Amount");
+        System.out.println("-------------------------------------------");
+        System.out.println("XX"+"    "+"From: "+"XXXXXXXX"+"   "+"$XXXXX.XX");
+        System.out.println("-------------------------------------------");
+        System.out.println();
+        System.out.println("Please enter transfer ID to approve/reject (0 to cancel): ");
+        System.out.println("```");
+
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        if(userInput == "0"){
+            mainMenu();
+        }else{
+            mainMenu();
+        }
 	}
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
-		
+        System.out.println("```");
+        System.out.println("-------------------------------------------");
+        System.out.println("Users");
+        System.out.println("ID          Name");
+        System.out.println("-------------------------------------------");
+        System.out.println("XX"+"    "+"XXXXXXXX");
+        System.out.println("-------------------------------------------");
+        System.out.println();
+        System.out.println("Enter ID of user you are sending to (0 to cancel):");
+        System.out.println("Enter amount:");
+        System.out.println("```");
+
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        if(userInput == "0"){
+            mainMenu();
+        }else{
+            mainMenu();
+        }
 	}
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
-		
-	}
+        System.out.println("```");
+        System.out.println("-------------------------------------------");
+        System.out.println("Users");
+        System.out.println("ID          Name");
+        System.out.println("-------------------------------------------");
+        System.out.println("XX"+"    "+"XXXXXXXX");
+        System.out.println("-------------------------------------------");
+        System.out.println();
+        System.out.println("Enter ID of user you are requesting from (0 to cancel):");
+        System.out.println("Enter amount:");
+        System.out.println("```");
 
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        if(userInput == "0"){
+            mainMenu();
+        }else{
+            mainMenu();
+        }
+	}
+    private void transferDetails() {
+        // TODO Auto-generated method stub
+        System.out.println("```");
+        System.out.println("-------------------------------------------");
+        System.out.println("Transfer Details");
+        System.out.println("-------------------------------------------");
+        System.out.println("ID:     "+"XX");
+        System.out.println("From:   "+"XXXXXX");
+        System.out.println("To:     "+"XXXXXX");
+        System.out.println("Status: "+"XXXXX");
+        System.out.println("Amount: "+"$"+"XXXX.XX");
+        System.out.println("```");
+        System.out.println("Enter any key to continue");
+
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        if(userInput == "0"){
+            mainMenu();
+        }else{
+            mainMenu();
+        }
+    }
 }
+
+
+
