@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,12 +82,38 @@ public class JdbcTransferDao implements TransferDao{
         return listOfCompletedTransfers;
     }
 
-    public Transfer sendTransfer() {
-        return null;
+    public Transfer sendTransfer(int fromUserId, int toUserId, BigDecimal amount) {
+        Transfer sendingTransfer = new Transfer();
+        String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+                "VALUES (2, 2, (SELECT account_id FROM account WHERE user_id = ?), (SELECT account_id FROM account WHERE user_id = ?), ?) " +
+                "RETURNING transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount;";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, fromUserId, toUserId, amount);
+            if(results.next()) {
+                sendingTransfer = mapRowToTransfer(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return sendingTransfer;
     }
 
-    public Transfer requestTransfer() {
-        return null;
+    public Transfer requestTransfer(int fromUserId, int toUserId, BigDecimal amount) {
+        Transfer transferRequest = new Transfer();
+        String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+                "VALUES (1, 1, (SELECT account_id FROM account WHERE user_id = ?), (SELECT account_id FROM account WHERE user_id = ?), ?) " +
+                "RETURNING transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount;";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, fromUserId, toUserId, amount);
+            if(results.next()) {
+                transferRequest = mapRowToTransfer(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return transferRequest;
     }
 
     public Transfer getTransferById(int transferId) {
@@ -106,8 +133,20 @@ public class JdbcTransferDao implements TransferDao{
         return transfer;
     }
 
-    public Transfer setStatus() {
-        return null;
+    public Transfer approveTransferRequest(int transferRequestId) {
+        Transfer approvedTransfer = null;
+        String sql = "UPDATE transfer SET transfer_status_id = 2 WHERE transfer_id = ? " +
+                "RETURNING RETURNING transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount;";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferRequestId);
+            if(results.next()) {
+                approvedTransfer = mapRowToTransfer(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return approvedTransfer;
     }
 
     private Transfer mapRowToTransfer(SqlRowSet rs) {

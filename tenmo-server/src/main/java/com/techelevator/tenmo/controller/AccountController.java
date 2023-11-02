@@ -19,26 +19,6 @@ public class AccountController {
         this.transferDao = transferDao;
     }
 
-
-    @RequestMapping(path = "transfers", method = RequestMethod.GET)
-    public List<Transfer> getAllTransfers() {
-        return transferDao.getTransfers();
-    }
-
-    @RequestMapping(path = "transfers/{id}", method = RequestMethod.GET)
-    public Transfer getTransferById(@PathVariable int transferId) {
-        return transferDao.getTransferById(transferId);
-    }
-
-    @RequestMapping(path = "transfers/pending", method = RequestMethod.GET)
-    public List<Transfer> getPendingTransfers() {
-        return transferDao.getPendingTransfers();
-    }
-
-    @RequestMapping(path = "transfers/completed", method = RequestMethod.GET)
-    public List<Transfer> getCompletedTransfers() {
-        return transferDao.getCompletedTransfers();
-    }
     @RequestMapping(path = "/accounts", method = RequestMethod.GET)
     public List<Account> getAccounts() {
         return accountDao.getAccounts();
