@@ -59,20 +59,6 @@ public class TransferService {
         return transfer;
     }
 
-    public String getUsernameByAccountId(int accountId) {
-        String username = "";
-
-        try {
-            ResponseEntity<String> response = restTemplate.getForEntity(baseUrl + "username/" + accountId,  String.class, HttpMethod.GET);
-            username = response.getBody();
-        } catch (RestClientResponseException | ResourceAccessException e) {
-            BasicLogger.log(e.getMessage());
-        }
-
-        return username;
-    }
-
-
     //(readme 7)
     //requestTransfer method
     //can not request from self

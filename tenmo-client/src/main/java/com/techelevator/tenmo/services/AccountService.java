@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
-
 import java.math.BigDecimal;
 
 public class AccountService {
@@ -34,5 +33,14 @@ public class AccountService {
 
         return accountBalance;
     }
-
+    public String getUsernameByAccountId(int accountId) {
+        String username = "";
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(baseUrl + "username/" + accountId,  String.class, HttpMethod.GET);
+            username = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return username;
+    }
 }

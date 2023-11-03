@@ -164,7 +164,7 @@ public class App {
 
         Transfer[] transfers = transferService.listTransfer();
         if (transfers != null) {
-            consoleService.printTransfers(transfers);
+            consoleService.printTransfers(transfers, accountService);
         } else {
             consoleService.printErrorMessage();
         }
