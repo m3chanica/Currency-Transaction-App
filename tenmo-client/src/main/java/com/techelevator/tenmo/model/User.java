@@ -4,15 +4,15 @@ import java.util.Objects;
 
 public class User {
 
-    private int id;
+    private int userId;
     private String username;
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -27,7 +27,7 @@ public class User {
     public boolean equals(Object other) {
         if (other instanceof User) {
             User otherUser = (User) other;
-            return otherUser.getId() == id
+            return otherUser.getUserId() == userId
                     && otherUser.getUsername().equals(username);
         } else {
             return false;
@@ -36,6 +36,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username);
+        return Objects.hash(userId, username);
     }
 }

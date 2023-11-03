@@ -7,9 +7,7 @@ import com.techelevator.tenmo.model.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
@@ -45,14 +43,14 @@ public class JdbcUserDaoTests extends BaseDaoTests {
 
     @Test
     public void getUserById_given_invalid_user_id_returns_null() {
-        User actualUser = sut.getUserById(-1);
+        User actualUser = sut.getUserByUserId(-1);
 
         Assert.assertNull(actualUser);
     }
 
     @Test
     public void getUserById_given_valid_user_id_returns_user() {
-        User actualUser = sut.getUserById(USER_1.getId());
+        User actualUser = sut.getUserByUserId(USER_1.getUserId());
 
         Assert.assertEquals(USER_1, actualUser);
     }

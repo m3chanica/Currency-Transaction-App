@@ -191,10 +191,10 @@ public class App {
 
     //TODO HOLY SHIT THIS IS TOTALLY EFFED PLEASE MAKE IT SO WHEN THE USER SPECS AN ID IT RETURNS THE CORRECT SHIT
     // PROMPT USER FOR THE DAMN ID
-    private void transferDetails(int id) {
-        Transfer transfers = transferService.getTransferDetails(id);
-            if (id > 0) {
-                transfers = transferService.getTransferDetails(id);
+    private void transferDetails(int transferId) {
+        Transfer transfers = transferService.getTransferDetails(transferId);
+            if (transferId > 0) {
+                transfers = transferService.getTransferDetails(transferId);
                 } else {
                     consoleService.printErrorMessage();
         }

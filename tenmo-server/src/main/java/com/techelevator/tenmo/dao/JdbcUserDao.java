@@ -25,7 +25,7 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public User getUserById(int userId) {
+    public User getUserByUserId(int userId) {
         User user = null;
         String sql = "SELECT user_id, username, password_hash FROM tenmo_user WHERE user_id = ?";
         try {
@@ -79,7 +79,7 @@ public class JdbcUserDao implements UserDao {
         String password_hash = new BCryptPasswordEncoder().encode(user.getPassword());
         try {
             int newUserId = jdbcTemplate.queryForObject(sql, int.class, user.getUsername(), password_hash);
-            newUser = getUserById(newUserId);
+            newUser = getUserByUserId(newUserId);
             if (newUser != null) {
                 // create account
                 sql = "INSERT INTO account (user_id, balance) VALUES (?, ?)";
@@ -95,7 +95,7 @@ public class JdbcUserDao implements UserDao {
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
-        user.setId(rs.getInt("user_id"));
+        user.setUserId(rs.getInt("user_id"));
         user.setUsername(rs.getString("username"));
         user.setPassword(rs.getString("password_hash"));
         user.setActivated(true);
