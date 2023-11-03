@@ -80,6 +80,9 @@ public class JdbcTransferDao implements TransferDao {
         String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
                 "VALUES (?, ?, ?, ?, ?) RETURNING transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount;";
 
+        String updateSql = "UPDATE account SET balance = (balance - ?) WHERE account_id = ?;" +
+                "UPDATE account SET balance = (balance + ?) WHERE account_id = ?;";
+
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql,
                     transferRequest.getTransferTypeId(),
@@ -89,6 +92,13 @@ public class JdbcTransferDao implements TransferDao {
                     transferRequest.getAmount());
             if (results.next()) {
                 newTransfer = mapRowToTransfer(results);
+            }
+            if (transferRequest.getTransferTypeId() == 2) {
+                SqlRowSet sendResults = jdbcTemplate.queryForRowSet(updateSql,
+                        transferRequest.getAmount(),
+                        transferRequest.getAccountFrom(),
+                        transferRequest.getAmount(),
+                        transferRequest.getAccountTo());
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to the server or database", e);
@@ -113,13 +123,17 @@ public class JdbcTransferDao implements TransferDao {
         return transfer;
     }
 
-    public Transfer approveTransferRequest(int transferRequestId) {
+    public Transfer approveTransferRequest(TransferRequestDTO transferRequest, int transferRequestId) {
         Transfer approvedTransfer = null;
-        String sql = "UPDATE transfer SET transfer_status_id = 2 WHERE transfer_id = ? " +
+        String sql = "UPDATE account SET balance = (balance - ?) WHERE account_id = ?;" +
+                "UPDATE account SET balance = (balance + ?) WHERE account_id = ?; " +
+                "UPDATE transfer SET transfer_status_id = 2 WHERE transfer_id = ? " +
                 "RETURNING transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount;";
 
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferRequestId);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferRequest.getAmount(),
+                    transferRequest.getAccountFrom(), transferRequest.getAmount(),
+                    transferRequest.getAccountTo(), transferRequestId);
             if (results.next()) {
                 approvedTransfer = mapRowToTransfer(results);
             }

@@ -8,6 +8,15 @@ public class TransferRequestDTO {
     private BigDecimal amount;
     private int transferTypeId;
     private int transferStatusId;
+    private int userId;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public int getAccountFrom() {
         return accountFrom;

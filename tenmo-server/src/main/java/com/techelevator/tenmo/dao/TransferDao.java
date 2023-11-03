@@ -18,5 +18,5 @@ public interface TransferDao {
 
     Transfer getTransferById(int transferId);
 
-    Transfer approveTransferRequest(int transferRequestId);
+    Transfer approveTransferRequest(TransferRequestDTO transferRequest, int transferRequestId);
 }
