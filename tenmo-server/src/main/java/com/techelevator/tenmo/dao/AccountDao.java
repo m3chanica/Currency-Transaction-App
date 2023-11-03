@@ -10,4 +10,5 @@ public interface AccountDao {
     Account getAccountByAccountId(int accountId);
     Account getAccountByUserId(int userId);
     BigDecimal getBalanceByUserId(int userId);
+    String getUsernameByAccountId(int accountId);
 }
