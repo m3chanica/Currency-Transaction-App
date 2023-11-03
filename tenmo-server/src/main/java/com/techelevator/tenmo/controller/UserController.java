@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
-    public User getUserById(@PathVariable int userId) {
-        return userDao.getUserById(userId);
+    public User getUserById(@PathVariable int id) {
+        return userDao.getUserById(id);
     }
 }

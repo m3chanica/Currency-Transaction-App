@@ -106,17 +106,24 @@ public class ConsoleService {
 	}
 //TODO THIS HORSESHIT IS WRONG AND NEEDS FIXED CUZ ITS SOOO DUMB AND JUST WRONG LOOK AT THE README
     public void printTransfers(Transfer[] transfers) {
-        for (Transfer transfer : transfers) {
-            System.out.println(transfer.getTransferId() + " " + transfer.getTransferStatusId()+ " " + transfer.getAccountFrom()+ " " + transfer.getAccountTo()+ " " + transfer.getAmount());}
-        System.out.println("-------------------------------------------");
 
+        System.out.println("```");
+        System.out.println("-------------------------------------------");
+        System.out.println("Users");
+        System.out.println("ID              Name");
+        System.out.println("-------------------------------------------");
+        for (Transfer transfer : transfers) {
+            System.out.println(transfer.getTransferId()+"    "+transfer.getTransferTypeId()+": "+transfer.getAccountFrom()+"   "+"$"+transfer.getAmount());
+        }
+        System.out.println("-------------------------------------------");
     }
 
 //TODO THISSSSS HORSESHIT IS FORMATTED A LOT BETTER BUT IT IS JUST NOT IMPLEMENTED YOU DUMB APE
     public void printTransfer(Transfer transfer) {
-        System.out.println("--------------------------------------------");
+        System.out.println("```");
+        System.out.println("-------------------------------------------");
         System.out.println("Transfer Details");
-        System.out.println("--------------------------------------------");
+        System.out.println("-------------------------------------------");
         if (transfer == null) {
             System.out.println("No transfer to print");
         } else {
