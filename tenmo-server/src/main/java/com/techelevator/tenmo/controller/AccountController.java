@@ -39,5 +39,10 @@ public class AccountController {
         return accountDao.getBalanceByUserId(userId);
     }
 
+    @RequestMapping(path = "/username/{accountId}", method = RequestMethod.GET)
+    public String getUsernameByAccountId(@PathVariable int accountId) {
+        return accountDao.getUsernameByAccountId(accountId);
+    }
+
 
 }

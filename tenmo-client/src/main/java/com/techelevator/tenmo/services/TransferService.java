@@ -39,7 +39,7 @@ public class TransferService {
     public Transfer[] listTransfer(){
         Transfer[] transfers = null;
         try{
-            transfers = restTemplate.getForObject(baseUrl + "transfers", Transfer[].class);
+            transfers = restTemplate.getForObject(baseUrl + "transfers/", Transfer[].class);
         } catch (RestClientResponseException | ResourceAccessException e){
             BasicLogger.log(e.getMessage());
         }
@@ -52,11 +52,24 @@ public class TransferService {
     public Transfer getTransferDetails(int transferId) {
         Transfer transfer = null;
         try {
-            transfer = restTemplate.getForObject(baseUrl + "transfers" + transferId, Transfer.class);
+            transfer = restTemplate.getForObject(baseUrl + "transfers/" + transferId, Transfer.class);
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
         return transfer;
+    }
+
+    public String getUsernameByAccountId(int accountId) {
+        String username = "";
+
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(baseUrl + "username/" + accountId,  String.class, HttpMethod.GET);
+            username = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+
+        return username;
     }
 
 

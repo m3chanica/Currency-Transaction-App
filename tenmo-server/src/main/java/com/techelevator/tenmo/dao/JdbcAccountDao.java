@@ -79,6 +79,22 @@ public class JdbcAccountDao implements AccountDao{
         return balance;
     }
 
+    @Override
+    public String getUsernameByAccountId(int accountId){
+        String username = "";
+        String sql = "SELECT username FROM tenmo_user JOIN account ON tenmo_user.user_id = account.user_id WHERE account_id = ?;";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, accountId);
+            if(results.next()) {
+                username = results.getString("username");
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return username;
+    }
+
     private Account mapRowToAccount(SqlRowSet rs) {
         Account account = new Account();
         account.setAccountId(rs.getInt("account_id"));
@@ -86,4 +102,7 @@ public class JdbcAccountDao implements AccountDao{
         account.setBalance(rs.getBigDecimal("balance"));
         return account;
     }
+
+
+
 }
