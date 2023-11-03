@@ -173,7 +173,7 @@ public class App {
 //        System.out.println("Transfers");
 //        System.out.println("ID          From/To                  Amount");
 //        System.out.println("-------------------------------------------");
-//        System.out.println("XX"+"    "+"From: "+"XXXXXXXX"+"   "+"$XXXXX.XX");
+//        System.out.println("id"+"    "+"transfercode: "+"nameofother"+"   "+"$amount");
 //        System.out.println("-------------------------------------------");
 //        System.out.println();
 //        System.out.println("Please enter transfer ID to view details (0 to cancel):");
@@ -223,29 +223,7 @@ public class App {
 //        }
 //    }
 
-    private void acceptOrReject() {
-        System.out.println("```");
-        System.out.println("1: Approve");
-        System.out.println("2: Reject");
-        System.out.println("0: Don't approve or reject");
-        System.out.println("---------");
-        System.out.println("Please choose an option:");
-        System.out.println("```");
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        if(userInput == "1"){
-            System.out.println("Transaction Approved!");}
-        else if(userInput == "2") {
-            System.out.println("Transaction Rejected!");
-        }else if(userInput =="0"){
-            viewPendingRequests();
-        }
-        else
-            System.out.println(userInput + " is an invalid selection.");
-            System.out.println("Returning to main menu");
-        {mainMenu();
-        }
-    }
+
 }
 
 
