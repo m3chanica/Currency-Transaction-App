@@ -3,7 +3,6 @@ package com.techelevator.tenmo.services;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.util.BasicLogger;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.ResourceAccessException;
@@ -27,7 +26,7 @@ public class AccountService {
         Account account = null;
 
         try {
-            ResponseEntity<BigDecimal> response = restTemplate.getForEntity(baseUrl + "balance/" + user.getUser().getId(), BigDecimal.class, HttpMethod.GET);
+            ResponseEntity<BigDecimal> response = restTemplate.getForEntity(baseUrl + "balance/" + user.getUser().getUserId(), BigDecimal.class, HttpMethod.GET);
             accountBalance = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());

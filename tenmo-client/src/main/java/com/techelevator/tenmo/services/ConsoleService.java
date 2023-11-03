@@ -100,7 +100,7 @@ public class ConsoleService {
         System.out.println("ID              Name");
         System.out.println("-------------------------------------------");
         for (User user : users) {
-        System.out.println(user.getId() + ":           " + user.getUsername());}
+        System.out.println(user.getUserId() + ":           " + user.getUsername());}
         System.out.println("-------------------------------------------");
 
 	}
