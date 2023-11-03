@@ -1,9 +1,12 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.services.AccountService;
+
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -105,21 +108,21 @@ public class ConsoleService {
 
 	}
 //TODO THIS HORSESHIT IS WRONG AND NEEDS FIXED CUZ ITS SOOO DUMB AND JUST WRONG LOOK AT THE README
-    public void printTransfers(Transfer[] transfers) {
-
+    public void printTransfers(Transfer[] transfers, AccountService username) {
         System.out.println("```");
         System.out.println("-------------------------------------------");
-        System.out.println("Users");
-        System.out.println("ID              Name");
+        System.out.println("Transfers");
+        System.out.println("ID          From/To                  Amount");
         System.out.println("-------------------------------------------");
         for (Transfer transfer : transfers) {
-            System.out.println(transfer.getTransferId()+"    "+transfer.getTransferTypeId()+": "+transfer.getAccountFrom()+"   "+"$"+transfer.getAmount());
+            String fromUsername = username.getUsernameByAccountId(transfer.getAccountFrom());
+            System.out.println(transfer.getTransferId()+"        "+transfer.getTransferTypeId()+": "+ fromUsername + "               "+"$"+transfer.getAmount());
         }
         System.out.println("-------------------------------------------");
     }
 
 //TODO THISSSSS HORSESHIT IS FORMATTED A LOT BETTER BUT IT IS JUST NOT IMPLEMENTED YOU DUMB APE
-    public void printTransfer(Transfer transfer) {
+    public void printTransferDetails(Transfer transfer) {
         System.out.println("```");
         System.out.println("-------------------------------------------");
         System.out.println("Transfer Details");
@@ -134,6 +137,4 @@ public class ConsoleService {
             System.out.println("Amount: " + transfer.getAmount());
         }
     }
-
-
 }

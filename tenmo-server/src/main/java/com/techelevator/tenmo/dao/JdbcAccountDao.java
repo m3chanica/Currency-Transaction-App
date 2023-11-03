@@ -102,7 +102,4 @@ public class JdbcAccountDao implements AccountDao{
         account.setBalance(rs.getBigDecimal("balance"));
         return account;
     }
-
-
-
 }
