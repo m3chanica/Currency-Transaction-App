@@ -2,11 +2,12 @@ package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.model.Transfer;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.techelevator.tenmo.model.TransferRequestDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -38,7 +39,14 @@ public class TransferController {
         return transferDao.getCompletedTransfers();
     }
 
-//    @RequestMapping(path = "transfers", method = );
+    @RequestMapping(path = "transfers/newTransfer", method = RequestMethod.POST)
+    public ResponseEntity<Transfer> createTransfer(@RequestBody TransferRequestDTO transferRequest) {
+        Transfer transfer = transferDao.createTransfer(transferRequest);
 
-
+        if (transfer != null) {
+            return new ResponseEntity<>(transfer, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

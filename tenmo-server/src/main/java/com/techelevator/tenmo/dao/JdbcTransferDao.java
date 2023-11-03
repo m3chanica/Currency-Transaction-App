@@ -1,9 +1,7 @@
 package com.techelevator.tenmo.dao;
-
 import com.techelevator.tenmo.exception.DaoException;
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
+import com.techelevator.tenmo.model.TransferRequestDTO;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -14,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcTransferDao implements TransferDao{
+public class JdbcTransferDao implements TransferDao {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -29,14 +27,12 @@ public class JdbcTransferDao implements TransferDao{
 
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-            while(results.next()) {
+            while (results.next()) {
                 Transfer newTransfer = mapRowToTransfer(results);
-
                 listOfTransfers.add(newTransfer);
-
             }
         } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
+            throw new DaoException("Unable to connect to the server or database", e);
         }
 
         return listOfTransfers;
@@ -49,14 +45,12 @@ public class JdbcTransferDao implements TransferDao{
 
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-            while(results.next()) {
+            while (results.next()) {
                 Transfer newTransfer = mapRowToTransfer(results);
-
                 listOfPendingTransfers.add(newTransfer);
-
             }
         } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
+            throw new DaoException("Unable to connect to the server or database", e);
         }
 
         return listOfPendingTransfers;
@@ -69,51 +63,37 @@ public class JdbcTransferDao implements TransferDao{
 
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-            while(results.next()) {
+            while (results.next()) {
                 Transfer newTransfer = mapRowToTransfer(results);
-
                 listOfCompletedTransfers.add(newTransfer);
-
             }
         } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
+            throw new DaoException("Unable to connect to the server or database", e);
         }
 
         return listOfCompletedTransfers;
     }
 
-    public Transfer sendTransfer(int fromUserId, int toUserId, BigDecimal amount) {
-        Transfer sendingTransfer = new Transfer();
+    @Override
+    public Transfer createTransfer(TransferRequestDTO transferRequest) {
+        Transfer newTransfer = new Transfer();
         String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
-                "VALUES (2, 2, (SELECT account_id FROM account WHERE user_id = ?), (SELECT account_id FROM account WHERE user_id = ?), ?) " +
-                "RETURNING transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount;";
+                "VALUES (?, ?, ?, ?, ?) RETURNING transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount;";
 
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, fromUserId, toUserId, amount);
-            if(results.next()) {
-                sendingTransfer = mapRowToTransfer(results);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql,
+                    transferRequest.getTransferTypeId(),
+                    transferRequest.getTransferStatusId(),
+                    transferRequest.getAccountFrom(),
+                    transferRequest.getAccountTo(),
+                    transferRequest.getAmount());
+            if (results.next()) {
+                newTransfer = mapRowToTransfer(results);
             }
         } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
+            throw new DaoException("Unable to connect to the server or database", e);
         }
-        return sendingTransfer;
-    }
-
-    public Transfer requestTransfer(int fromUserId, int toUserId, BigDecimal amount) {
-        Transfer transferRequest = new Transfer();
-        String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
-                "VALUES (1, 1, (SELECT account_id FROM account WHERE user_id = ?), (SELECT account_id FROM account WHERE user_id = ?), ?) " +
-                "RETURNING transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount;";
-
-        try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, fromUserId, toUserId, amount);
-            if(results.next()) {
-                transferRequest = mapRowToTransfer(results);
-            }
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-        return transferRequest;
+        return newTransfer;
     }
 
     public Transfer getTransferById(int transferId) {
@@ -123,11 +103,11 @@ public class JdbcTransferDao implements TransferDao{
 
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId);
-            if(results.next()) {
+            if (results.next()) {
                 transfer = mapRowToTransfer(results);
             }
         } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
+            throw new DaoException("Unable to connect to the server or database", e);
         }
 
         return transfer;
@@ -136,15 +116,15 @@ public class JdbcTransferDao implements TransferDao{
     public Transfer approveTransferRequest(int transferRequestId) {
         Transfer approvedTransfer = null;
         String sql = "UPDATE transfer SET transfer_status_id = 2 WHERE transfer_id = ? " +
-                "RETURNING RETURNING transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount;";
+                "RETURNING transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount;";
 
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferRequestId);
-            if(results.next()) {
+            if (results.next()) {
                 approvedTransfer = mapRowToTransfer(results);
             }
         } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
+            throw new DaoException("Unable to connect to the server or database", e);
         }
         return approvedTransfer;
     }
